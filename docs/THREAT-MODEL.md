@@ -111,13 +111,43 @@ Opening *"Should [politician] be arrested?"* as a national question is a smear t
 borrows the platform's legitimacy at zero cost.
 
 **Defenses:** proposal throttling per account; promotion gated on **bridging support**
-rather than signature count, so a single faction cannot promote alone; a drafting stage;
-and cross-cluster agreement that wording is neutral before a question may run.
+rather than signature count, so a single faction cannot promote alone; a light framing
+check that the proposal states a topic rather than smuggling a verdict; and cross-cluster
+agreement that wording is neutral before a question may run.
 
-**Residual:** the drafting-and-promotion layer is now the highest-value target on the
-platform, since it decides what the nation deliberates. Whoever earns those privileges
-must be selected in a capture-resistant way — plausibly by lot from qualified
-contributors rather than by accumulation. Unresolved.
+**Residual:** the promotion layer decides what the nation deliberates, which makes it a
+high-value target. It is a much smaller target than it was in earlier drafts — DESIGN
+§4.4 removed the editorial role that also decided *how* a question was framed — but
+promotion still gates the queue. Whoever holds it should be selected in a
+capture-resistant way, plausibly by lot from qualified contributors rather than by
+accumulation. Unresolved.
+
+### 2.5 Statement-pool anchoring
+
+Introduced deliberately by DESIGN §4.4. Because decomposition is emergent rather than
+authored, there is no framing role to capture — but framing still happens, and it is
+shaped by whoever writes statements early and fluently. Early statements anchor the
+opinion space, and the axes computed from the vote matrix are the axes everyone
+subsequently votes along.
+
+The attack: flood the statement pool in the opening hour with well-crafted statements
+spanning a chosen framing. Later participants vote on the dimensions you supplied. No
+fake accounts required, no vote manipulation, no detectable coordination in the voting
+data — only a modest number of real, verified people submitting early.
+
+This is a genuine trade: an appointed role has been exchanged for a race condition. The
+race condition is preferable — it is diffuse, contestable, and open to everyone rather
+than vested in one seat — but it is not nothing.
+
+**Defenses:** seed the initial pool from a stratified random sample rather than
+volunteers; throttle statements per person; serve statements to voters in randomized
+order; keep submission open for the full duration rather than front-loading it, so late
+entrants can still introduce a missing dimension.
+
+**Residual:** untested. How strongly early statements shape the discovered axes is an
+empirical question. **Measure it in the first rooms** — inject a late statement on a
+known-missing dimension and see whether it can still gain traction. If it cannot, the
+mitigations are insufficient and the design needs revisiting.
 
 ---
 
@@ -188,6 +218,8 @@ Not attacks — ways the thing fails while working as specified.
 2. **Cluster spoofing** (§2.3) — deepest unsolved attack on the core mechanism.
 3. **Early-stage capture** (§2.2) — highest risk precisely when the platform looks
    harmless.
-4. **Operator trust** (§4) — cheap to fix now, near-impossible to retrofit credibly.
-5. **Exclusion skew** (§5) — an ethical failure that no amount of good engineering
+4. **Statement-pool anchoring** (§2.5) — cheap to attempt, requires no fake accounts,
+   and leaves no signature in the voting data. Mitigations are untested.
+5. **Operator trust** (§4) — cheap to fix now, near-impossible to retrofit credibly.
+6. **Exclusion skew** (§5) — an ethical failure that no amount of good engineering
    downstream repairs.

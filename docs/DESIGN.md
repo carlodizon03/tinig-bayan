@@ -203,15 +203,15 @@ constitutional amendments.
 
 **How a national question runs:**
 
-1. **Decompose.** "Federalism: yes or no" is pure identity and cannot be deliberated.
-   "Should the internal revenue allotment formula weight population or land area" can be.
-   Decomposition is a core platform function, not an afterthought.
+1. **Open with the raw question.** No decomposition step — see §4.4.
 2. **Draw rooms.** Many parallel rooms of roughly 200, each **stratified to be
    internally diverse** — deliberately mixed, never homogeneous.
-3. **Deliberate.** Each room runs the agree/disagree/pass mechanic and surfaces its own
-   bridging statements.
-4. **Aggregate across rooms**, weighting by cross-room replication.
-5. **Publish.** "A representative sample of Filipinos, after real deliberation,
+3. **Round one — discover the axes.** Participants submit statements and vote
+   agree/disagree/pass. The dimensions of disagreement are computed from the vote matrix.
+4. **Round two — deliberate the discovered fault lines.** The statements that split the
+   clusters in round one become the substance of round two.
+5. **Aggregate across rooms**, weighting by cross-room replication.
+6. **Publish.** "A representative sample of Filipinos, after real deliberation,
    converged on this." Citable by media and legislators — which is also the growth loop.
 
 **Cross-room replication is the manipulation detector.** Run one question through 40
@@ -219,7 +219,68 @@ independent representative rooms and a coordinated campaign appears as an outlie
 This is a *statistical* defense against troll farms rather than a moderation one: much
 harder to defeat, and it never requires the platform to judge anyone's sincerity.
 
-### 4.4 Consequence: proposers are not participants
+### 4.4 Decomposition is emergent, not authored
+
+"Federalism: yes or no" is pure identity and cannot be deliberated — answering it is a
+declaration of which camp you belong to, not an act of reasoning. It has to become
+something with content: *should the internal revenue allotment formula weight population
+or land area? which powers devolve? what happens to regions with a small tax base?*
+
+The obvious way to get there is to appoint someone to draft the sub-questions. **We
+reject that.** Whoever decomposes controls the framing, and framing largely determines
+the outcome — decomposing "the war on drugs" into questions about enforcement
+effectiveness produces a different national conversation than decomposing it into
+questions about extrajudicial killings. Neither is dishonest; they are simply not the
+same question. An appointed decomposer is the push-poll surface of the entire platform,
+one level upstream of the wording-neutrality check, and the most valuable thing on it to
+capture.
+
+**Instead, the statements are the decomposition.** A participant statement is implicitly
+a sub-question with a position attached. The axes of division are then **computed, not
+chosen** — dimensionality reduction over the vote matrix, as Polis does. Statements with
+high cross-cluster agreement are the consensus; statements that split the clusters are
+the real fault lines, and those fault lines *are* the sub-questions. Decomposition is
+therefore not a prior step performed by anyone. It is an output of round one.
+
+This subjects framing to the same cross-cluster test as everything else, rather than
+appointing a framer and then trying to keep them honest.
+
+**Second consequence: the platform never has to decline a question.** "Was Marcos Sr. a
+hero?" simply runs, and produces two clusters with almost no bridging statements. That
+null result is honest, publishable output — *this question has no deliberable structure,
+and here is the evidence.* Far better than a committee refusing to run it, which is
+indistinguishable from censorship and would rightly be attacked as such.
+
+**What does not dissolve.** Three residual functions remain. All three are *sorting, not
+framing*: they do not choose the axes, their errors are visible to anyone reading the
+statement pool, and they are partly automatable. That makes them categorically less
+capturable than the role we rejected.
+
+1. **A seed frame.** Something has to be at the top of the page, and even "what should we
+   do about federalism?" presumes federalism is the object of concern rather than, say,
+   local government funding. Zero framing is impossible. The proposer supplies minimal
+   framing; participants override it by submitting statements that reframe. Weak framing
+   that can be overridden beats strong framing that cannot.
+2. **Empirical claims must not be voted on.** "The death penalty deters crime" has an
+   answer; "I would accept slower growth for lower inequality" is a preference.
+   Participants will not separate these. If a factual claim goes to a vote, the platform
+   launders an opinion into a finding. Factual claims need routing to evidence, not to
+   agreement.
+3. **Statement hygiene.** Compound statements — *"we should federalize AND fix
+   corruption"* — make agree/disagree meaningless and corrupt the clustering. Splitting
+   compounds, deduplication, and rejecting incoherent submissions is a janitorial
+   function the statement pool cannot go without.
+
+**The failure mode this buys.** Emergent framing is not neutral either: it is biased
+toward whoever writes statements early and fluently. Early statements anchor the opinion
+space, so a motivated group that floods the pool in the first hour shapes the axes
+everyone else votes along. An appointed role has been traded for a race condition.
+Mitigations, all cheap: seed the initial pool from a stratified random sample rather than
+volunteers, throttle statements per person, serve statements to voters in randomized
+order, and keep submission open throughout rather than front-loading it, so late
+entrants can still introduce a missing dimension. See THREAT-MODEL §2.5.
+
+### 4.5 Consequence: proposers are not participants
 
 Under sortition, the person who proposed a question generally will **not** be in the
 room that deliberates it. This is the point — it prevents proposers from stacking their
@@ -284,8 +345,9 @@ over time. Any reputation system must satisfy all six:
    number.
 4. **It decays.** Reputation reflects current behavior, not a hot streak from years ago.
    Otherwise an old guard entrenches — a form of capture.
-5. **It buys responsibility, not status.** It unlocks drafting questions, serving on a
-   synthesis panel, moderating. Spendable, not displayable.
+5. **It buys responsibility, not status.** It unlocks statement-pool hygiene (§4.4),
+   serving on a synthesis panel, moderating. Notably it does *not* unlock framing.
+   Spendable, not displayable.
 6. **It cannot be transferred, sold, or delegated.**
 
 ### 5.4 Agenda-setting: propose freely, promote carefully
@@ -304,8 +366,11 @@ Promotion rules:
 - **Gate on bridging support.** A proposal is promoted when it draws backing from
   *multiple opinion clusters*. A question only one faction wants asked is not a national
   question; it is a campaign.
-- **Drafting stage.** Raw proposals are almost always malformed. Converting them into
-  deliberable form is precisely what earned reputation should buy the right to do.
+- **A light framing check, not a drafting stage.** Earlier drafts of this design had an
+  editorial step that converted raw proposals into sub-questions. That is exactly the
+  role §4.4 rejects — it hands someone the framing pen. What remains is narrow: confirm
+  the proposal states a topic rather than smuggling a verdict, and leave the rest to the
+  statement pool.
 - **Test wording for neutrality, and measure it.** Loaded framing is the classic
   push-poll attack. Ask both clusters "is this fairly worded?" and require cross-cluster
   agreement before the question can run. An objective check on a problem everyone else
@@ -324,6 +389,8 @@ Recorded so these do not creep back in:
 - Public vote counts as a ranking input.
 - Reddit-style karma or any single public reputation number.
 - A fact-checking authority, or any mechanism where the platform rules on truth.
+- An appointed question-drafter, or any role that holds the framing pen (§4.4).
+- Votes on empirical claims — that is laundering opinion into finding (§4.4).
 - Growth-optimized virality mechanics of any kind.
 - A "show both sides" balanced feed — a measured failure mode, not a fix.
 
@@ -343,7 +410,13 @@ Recorded so these do not creep back in:
   constrain framework decisions before they harden.
 - **Verified-population skew** (§3.2). Unsolved.
 - **Room size and count** — 200 and 40 are placeholders, not derived numbers.
-- **Who does the decomposition** in §4.3 step 1, and how that role resists capture.
+- **The residual sorting roles** (§4.4) — who separates empirical claims from
+  preferences, and who performs statement-pool hygiene. Much narrower and more checkable
+  than the framing role this replaced, and plausibly partly automatable, but not yet
+  specified.
+- **Statement-pool anchoring** (§4.4) — the mitigations are cheap and plausible but
+  untested. How strongly early statements shape the discovered axes is an empirical
+  question that should be measured in the first rooms, not assumed.
 - **Legal review.** RA 10173, RA 10175, RA 11934, RA 11055, and COMELEC rules on online
   campaign material during election periods all bear on this. None of the above
   substitutes for actual Philippine counsel.
