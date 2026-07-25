@@ -161,7 +161,7 @@ buckets until the threshold holds. This is a hard gate on rendering, not a guide
 
 The infinite scroll of everything is the polarization machine. There is no feed.
 
-The unit is an **issue-scoped room**. Removed by design:
+The unit is an **issue-scoped panel**. Removed by design:
 
 - **No reshare, no quote-post.** Quote-post is the dunk mechanic — it exists to show
   your side someone else's stupidity. Nothing can go viral, which removes most of a
@@ -179,14 +179,14 @@ agreed with — "I accept the fact, not the conclusion." That single affordance 
 large amount of tribal bundling, because it lets people decompose a package they would
 otherwise have to accept or reject whole.
 
-Inside a room, the mechanic is Polis-style: participants submit short statements and
+Inside a panel, the mechanic is Polis-style: participants submit short statements and
 vote **agree / disagree / pass** on others' statements. The system clusters participants
 by voting pattern and surfaces the statements that **bridge** the clusters.
 
 ### 4.3 National scale via sortition
 
 A hundred million people cannot deliberate. Polis-style processes work at hundreds to
-low thousands. "National" therefore cannot mean one room.
+low thousands. "National" therefore cannot mean one panel.
 
 **Mandatory identity unlocks the mechanism that makes national deliberation tractable:
 sortition.** Because every account is a verified unique human with coarse demographic
@@ -204,18 +204,18 @@ constitutional amendments.
 **How a national question runs:**
 
 1. **Open with the raw question.** No decomposition step — see §4.4.
-2. **Draw rooms.** Many parallel rooms of roughly 200, each **stratified to be
+2. **Draw panels.** Many parallel panels of roughly 200, each **stratified to be
    internally diverse** — deliberately mixed, never homogeneous.
 3. **Round one — discover the axes.** Participants submit statements and vote
    agree/disagree/pass. The dimensions of disagreement are computed from the vote matrix.
 4. **Round two — deliberate the discovered fault lines.** The statements that split the
    clusters in round one become the substance of round two.
-5. **Aggregate across rooms**, weighting by cross-room replication.
+5. **Aggregate across panels**, weighting by cross-panel replication.
 6. **Publish.** "A representative sample of Filipinos, after real deliberation,
    converged on this." Citable by media and legislators — which is also the growth loop.
 
-**Cross-room replication is the manipulation detector.** Run one question through 40
-independent representative rooms and a coordinated campaign appears as an outlier room.
+**Cross-panel replication is the manipulation detector.** Run one question through 40
+independent representative panels and a coordinated campaign appears as an outlier panel.
 This is a *statistical* defense against troll farms rather than a moderation one: much
 harder to defeat, and it never requires the platform to judge anyone's sincerity.
 
@@ -283,12 +283,83 @@ entrants can still introduce a missing dimension. See THREAT-MODEL §2.5.
 ### 4.5 Consequence: proposers are not participants
 
 Under sortition, the person who proposed a question generally will **not** be in the
-room that deliberates it. This is the point — it prevents proposers from stacking their
+panel that deliberates it. This is the point — it prevents proposers from stacking their
 own panel — but it will feel bad and must be designed for.
 
 Citizens' assemblies solve this by letting the public submit evidence and testimony to a
 panel drawn by lot. Same here: proposers get full visibility and a written channel in,
 but not a seat.
+
+---
+
+### 4.6 Why the statement pool is flat
+
+**Do not turn the statement pool into a thread.** It is the constraint most likely to be
+"fixed" by someone who does not know why it exists, so the reasoning is recorded here.
+
+People submit statements, so threading them looks natural. It would break the mechanism.
+
+1. **Position determines exposure.** In a thread the first reply is read by everyone and
+   the four-hundredth by nobody. Support would then measure *when a statement arrived and
+   where it landed in the tree*, not what people think of it. Randomized serving exists
+   precisely to decouple exposure from merit. Without it, the computed axes are partly an
+   artifact of reading order — and the platform would be publishing "what a
+   representative sample concluded" when part of what it measured was who posted early.
+2. **Threaded statements are not comparable.** Clustering needs a participants ×
+   statements matrix where every cell means the same thing, which requires every statement
+   to be independently evaluable by someone who has not read the rest. A reply only means
+   something relative to its parent, so "agree" on a nested reply and "agree" on a
+   top-level statement are different measurements. Dimensionality reduction over a matrix
+   mixing them yields axes that mean nothing.
+3. **A reply has a target.** The moment there is a reply-to, you are responding to a
+   person rather than evaluating a claim, and the last word goes to whoever is most
+   persistent. This defeats the author-less card (§6).
+4. **Threads reward volume.** More posts means more occupied space means more influence.
+   In a randomized pool, posting more simply dilutes you across the serving order.
+
+Note that the obvious compromise — *display as a thread, compute on flat votes* — does
+not work. The corruption enters through exposure, not through the data model.
+
+**What this costs.** The flat pool discards argument structure. "I disagree because X" is
+genuinely informative and cannot be represented.
+
+The known middle option is **typed relations rather than free replies**: a statement
+declares a structured link to another — *refines*, *contradicts*, *is evidence for*, *is
+a special case of* — producing an argument graph instead of a conversation. Each
+statement stays independently votable, so the matrix survives. This is argument mapping;
+Kialo is the best-known consumer implementation.
+
+The catch is decisive here. Argument maps are laborious and participation collapses to
+the articulate and the motivated. **Under sortition, friction is a bias, not merely a UX
+cost.** If only the fluent complete the task, the panel is no longer representative and
+the sortition guarantee — the entire value proposition — is gone. A drawn panel that
+loses half its draw to friction has silently become a volunteer panel with extra steps.
+
+Possible cheap compromise for round one: a single optional typed relation, *"this refines
+statement #37"*, with no reply semantics. Near-zero friction, helps deduplicate
+near-identical statements, creates no conversation.
+
+### 4.7 Round two: where minds actually change
+
+Recorded as a known weakness. **The design as specified maps opinion structure well and
+does almost nothing to change anyone's mind.**
+
+Polis-style voting discovers where agreement already exists. It is measurement. But in
+real citizens' assemblies the part that moves people is the part §4.6 cuts: small
+facilitated discussion, hearing evidence, arguing in a structured setting with someone
+who disagrees. Ireland's assembly worked because people sat in facilitated groups over
+many weekends, not because they swiped cards.
+
+So round two should be genuinely conversational — small groups, strict turn-taking,
+facilitation, possibly synchronous. Threading is the right structure *here*, and the
+friction §4.6 rejects is acceptable *here*, because round two is no longer measuring a
+representative sample; it is persuading a small group on a fault line round one already
+identified.
+
+**Unresolved, and it is the largest gap in the design:** real assemblies use trained
+human facilitators, which does not obviously scale to a national platform. Whether
+facilitation can be structured into software, or must be volunteer humans drawn by lot
+and trained, is an open question with no current answer.
 
 ---
 
@@ -380,7 +451,87 @@ Promotion rules:
 
 ---
 
-## 6. Explicitly not building
+## 6. Surfaces — what a person actually sees
+
+### 6.1 A panel is not a chat
+
+Earlier drafts used the word "room," which misleads. A panel is closer to a card-swipe
+survey than to a conversation:
+
+```
+┌────────────────────────────────────────┐
+│  Statement 37 of 120                   │
+│                                        │
+│  "The IRA formula should weight        │
+│   land area more heavily than          │
+│   population."                         │
+│                                        │
+│  [ Agree ]   [ Disagree ]   [ Pass ]   │
+└────────────────────────────────────────┘
+
+        + Add your own statement (140 chars)
+```
+
+That is the entire interaction. One statement at a time, three buttons, and a box to
+contribute. **No author shown. No replies. No threading. No mentions. Asynchronous.**
+
+None of this is UI minimalism; each removal is load-bearing:
+
+- **Author hidden.** Removing the author is what lets someone agree with a statement they
+  would reflexively reject if they knew which camp wrote it. It also means no one can be
+  addressed, targeted, or piled onto.
+- **No live vote counts.** Showing running tallies creates bandwagon voting and corrupts
+  the measurement.
+- **No live opinion map.** This is a deliberate deviation from Polis, which shows
+  participants the clustering as it forms. Watching yourself land in "Group B" activates
+  precisely the identity response the platform exists to suppress — you begin voting as a
+  member of B rather than as yourself. Show the map only after the panel closes.
+- **Asynchronous.** Real-time chat rewards whoever is fastest, most aggressive, and most
+  online.
+
+Target completion: roughly 20 minutes. Per §4.6, this is a representativeness
+requirement, not a comfort target.
+
+### 6.2 Not invite-only — sortition-only
+
+Two different things that are easy to conflate:
+
+**Reading is fully public.** Results, methodology, opinion maps, and raw vote data are
+open to anyone with no account and no login. This is required — publishing raw data is
+what prevents the operator from cooking outcomes (THREAT-MODEL §4), and the published
+result *is* the product.
+
+**Participating in a given panel is by lot.** Nobody invites anyone. There is no
+gatekeeper who could favor anyone; that is the point of sortition. You are drawn, as for
+jury duty, and notified: *"You have been drawn for a panel on regional revenue
+allocation. It runs 5 days and takes about 20 minutes. Will you serve?"*
+
+There are no invitations anywhere in the system.
+
+### 6.3 Three surfaces
+
+1. **Public results library** — no login. A browsable archive of what a representative
+   sample of Filipinos concluded on each question: opinion map, consensus statements,
+   dissenting cluster positions, methodology, downloadable raw data. This is the artifact
+   shared onto Facebook, so it must be legible, citable, and correct as a link preview.
+   **It is the platform's entire distribution surface** (§8).
+2. **The panel** — drawn participants only, asynchronous, the card interaction above.
+3. **The dashboard** — an *inbox, not a stream*:
+   - *You have been drawn for: [question]. 3 days left.*
+   - *Proposals seeking support* — questions awaiting promotion you can back
+   - *Results published* — outcomes, flagged if you served
+   - *Your proposals* — status of anything you opened
+
+   Finite, task-shaped, and it empties. You arrive, do the thing, and leave. There is
+   nothing to scroll.
+
+Three surfaces is a genuinely small product. That is a feature — it fits the low-end
+Android, metered-data constraint in §8, and there is very little surface area on which to
+accidentally build a feed.
+
+---
+
+## 7. Explicitly not building
 
 Recorded so these do not creep back in:
 
@@ -396,7 +547,7 @@ Recorded so these do not creep back in:
 
 ---
 
-## 7. Open questions
+## 8. Open questions
 
 - **Distribution.** A deliberately slow, non-viral platform has no growth loop by
   construction, and Facebook is effectively the internet for much of the country. The
@@ -409,37 +560,54 @@ Recorded so these do not creep back in:
 - **Devices.** Low-end Android on metered data means a small-bundle PWA. This should
   constrain framework decisions before they harden.
 - **Verified-population skew** (§3.2). Unsolved.
-- **Room size and count** — 200 and 40 are placeholders, not derived numbers.
+- **Panel size and count** — 200 and 40 are placeholders, not derived numbers.
 - **The residual sorting roles** (§4.4) — who separates empirical claims from
   preferences, and who performs statement-pool hygiene. Much narrower and more checkable
   than the framing role this replaced, and plausibly partly automatable, but not yet
   specified.
 - **Statement-pool anchoring** (§4.4) — the mitigations are cheap and plausible but
   untested. How strongly early statements shape the discovered axes is an empirical
-  question that should be measured in the first rooms, not assumed.
+  question that should be measured in the first panels, not assumed.
+- **Facilitation at scale** (§4.7) — **the largest gap.** Round one measures opinion;
+  it does not change minds. Round two needs small facilitated groups, and real citizens'
+  assemblies achieve that with trained human facilitators. Whether facilitation can be
+  structured into software, or must be volunteer humans drawn by lot and trained, has no
+  current answer.
+- **Completion rate as a bias metric** (§4.6). Under sortition, everyone who abandons a
+  panel makes the result less representative. Completion is therefore a validity measure,
+  not an engagement measure, and it should be instrumented and published as such from the
+  first panel.
 - **Legal review.** RA 10173, RA 10175, RA 11934, RA 11055, and COMELEC rules on online
   campaign material during election periods all bear on this. None of the above
   substitutes for actual Philippine counsel.
 
 ---
 
-## 8. Build order
+## 9. Build order
 
-The room is the risky hypothesis; the identity layer is expensive but well-understood.
+The panel is the risky hypothesis; the identity layer is expensive but well-understood.
 Build the risky thing first.
 
-1. **A single deliberation room.** Statement submission, agree/disagree/pass, clustering,
-   bridging surface. Throwaway auth. This is the falsifiable core — if a room does not
-   produce bridging statements that participants recognize as fair, nothing else matters.
-2. **Multi-room + aggregation**, without sortition. Validate cross-room replication.
-3. **Identity: verify-then-forget.** Phone path first, separate service, blind signatures.
-4. **Sortition**, once the verified population is large enough to draw from meaningfully.
-5. **Agenda-setting and reputation.** Last — these only matter at a scale that does not
+1. **A single panel, round one only.** The card interaction (§6.1), statement submission,
+   agree/disagree/pass, clustering, bridging surface. Throwaway auth. This is the
+   falsifiable core — if a panel does not produce bridging statements that participants
+   recognize as fair, nothing else matters. Instrument completion rate from day one
+   (§8).
+2. **The public results page.** Small, but it is the entire distribution surface (§6.3)
+   and the thing that gets shared. Building it early also forces honesty about what a
+   panel actually produced.
+3. **Multi-panel + aggregation**, without sortition. Validate cross-panel replication.
+4. **Identity: verify-then-forget.** Phone path first, separate service, blind signatures.
+5. **Sortition**, once the verified population is large enough to draw from meaningfully.
+6. **Round two — facilitated deliberation** (§4.7). Deferred deliberately: it is the
+   least understood piece, and rounds one through five produce something useful without
+   it.
+7. **Agenda-setting and reputation.** Last — these only matter at a scale that does not
    yet exist.
 
 ---
 
-## 9. References
+## 10. References
 
 - Bail et al., "Exposure to opposing views on social media can increase political
   polarization," *PNAS* (2018).

@@ -72,14 +72,14 @@ attack and the design's answer is structural rather than detective.
 
 **Defenses:**
 
-- **Sortition.** Rooms are drawn by lot from the verified population. An operator cannot
-  choose to be in a room. To place N operatives in a given room they must control a
+- **Sortition.** Panels are drawn by lot from the verified population. An operator cannot
+  choose to be in a panel. To place N operatives in a given panel they must control a
   large fraction of the *entire* verified population — the cost scales with the platform,
   not with the attack.
-- **Cross-room replication** (DESIGN §4.3). The same question runs through many
-  independent representative rooms. Captured rooms appear as statistical outliers. This
+- **Cross-panel replication** (DESIGN §4.3). The same question runs through many
+  independent representative panels. Captured panels appear as statistical outliers. This
   never requires judging anyone's sincerity, which is why it is robust.
-- **Bridging.** Even a captured room produces nothing unless the operatives can win
+- **Bridging.** Even a captured panel produces nothing unless the operatives can win
   endorsement from participants in the *opposing* cluster. Volume alone buys nothing.
 
 **Residual:** an operation that is genuinely large relative to the verified population
@@ -97,7 +97,7 @@ now read as bridging.
 
 **Defenses:** clusters are computed per-question from voting patterns, not stored as
 persistent identity, so standing must be rebuilt each time. Reputation is per-domain and
-non-fungible (DESIGN §5.3), so cross-topic standing does not transfer. Cross-room
+non-fungible (DESIGN §5.3), so cross-topic standing does not transfer. Cross-panel
 replication still applies.
 
 **Residual: partially unmitigated, and this is the deepest open problem in the design.**
@@ -145,7 +145,7 @@ order; keep submission open for the full duration rather than front-loading it, 
 entrants can still introduce a missing dimension.
 
 **Residual:** untested. How strongly early statements shape the discovered axes is an
-empirical question. **Measure it in the first rooms** — inject a late statement on a
+empirical question. **Measure it in the first panels** — inject a late statement on a
 known-missing dimension and see whether it can still gain traction. If it cannot, the
 mitigations are insufficient and the design needs revisiting.
 
@@ -157,7 +157,7 @@ Not malicious, but the failure mode most likely to actually occur.
 
 | Behavior | Defense |
 |---|---|
-| Brigading a room | Sortition — you cannot choose your room. |
+| Brigading a panel | Sortition — you cannot choose your panel. |
 | Downvoting dissent into silence | No downvote exists. Disagree is free and carries no penalty (DESIGN §5.2). |
 | Dunking and screenshot wars | No reshare, no quote-post. Nothing can go viral. |
 | Status-farming | No public score. Reputation is invisible, non-fungible, decaying, and spendable only on responsibility. |
