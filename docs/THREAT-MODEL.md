@@ -151,6 +151,48 @@ mitigations are insufficient and the design needs revisiting.
 
 ---
 
+### 2.6 Correlated model bias
+
+Listed here despite having no adversary. It is the only entry in this document that
+requires nobody to attack anything, and it is dangerous for exactly that reason: it
+produces a corrupted national result through ordinary operation.
+
+If an AI facilitates round two (DESIGN §4.8), its priors apply **identically and in the
+same direction to every panel simultaneously.**
+
+This defeats §2.2's primary defense. Cross-panel replication detects manipulation because
+independently drawn panels should not diverge — an outlier is the signal. Model bias
+produces no outlier. It produces forty panels agreeing with each other, which is
+indistinguishable from, and will be reported as, a robust national finding. **The
+detector is not merely blind to this failure; the failure actively strengthens the
+detector's confidence.**
+
+The biases most likely to matter are not exotic: training corpora dominated by
+English-language, US-inflected political discourse, applied to a political landscape
+that does not map onto US left/right; weaker handling of Taglish, Bisaya, and Ilocano,
+which turns the facilitator into a class filter; and post-RLHF agreeableness, which
+validates whoever it addresses.
+
+**Defenses:**
+
+- **Model diversity across panels.** Different models with different training have
+  different priors, which decorrelates the bias and restores replication. If facilitation
+  is automated at all, this is not a refinement — it is what keeps §2.2 working.
+- **The model drafts, the group ratifies.** No model output enters the record until
+  participants across clusters accept it (DESIGN §4.8.5).
+- **Facilitator interventions logged publicly and rated by both clusters.** Asymmetric
+  flag rates are a measurable bias signal rather than an argument.
+- **Prompts and intervention policy public and versioned.** A closed facilitator is the
+  same "trust us" failure as a closed ranking algorithm (§4).
+- Prefer **AI as the human facilitator's coach** over AI as facilitator (DESIGN §4.8.6),
+  which keeps bias human-scale and uncorrelated by construction.
+
+**Residual:** all defenses above are untested here, and the failure is silent by nature.
+Treat any AI-facilitated result as provisional until asymmetry has been measured on
+panels where the answer is already known.
+
+---
+
 ## 3. Adversary: ordinary users behaving badly
 
 Not malicious, but the failure mode most likely to actually occur.
@@ -220,6 +262,9 @@ Not attacks — ways the thing fails while working as specified.
    harmless.
 4. **Statement-pool anchoring** (§2.5) — cheap to attempt, requires no fake accounts,
    and leaves no signature in the voting data. Mitigations are untested.
-5. **Operator trust** (§4) — cheap to fix now, near-impossible to retrofit credibly.
-6. **Exclusion skew** (§5) — an ethical failure that no amount of good engineering
+5. **Correlated model bias** (§2.6) — needs no adversary, and defeats the detector that
+   catches everything else in §2. Applies only once AI facilitation exists, which is a
+   reason to decide it before building it rather than after.
+6. **Operator trust** (§4) — cheap to fix now, near-impossible to retrofit credibly.
+7. **Exclusion skew** (§5) — an ethical failure that no amount of good engineering
    downstream repairs.

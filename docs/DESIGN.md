@@ -350,16 +350,159 @@ facilitated discussion, hearing evidence, arguing in a structured setting with s
 who disagrees. Ireland's assembly worked because people sat in facilitated groups over
 many weekends, not because they swiped cards.
 
-So round two should be genuinely conversational — small groups, strict turn-taking,
-facilitation, possibly synchronous. Threading is the right structure *here*, and the
-friction §4.6 rejects is acceptable *here*, because round two is no longer measuring a
-representative sample; it is persuading a small group on a fault line round one already
-identified.
+So round two is genuinely conversational. Threading is the right structure *here*, and
+the friction §4.6 rejects is acceptable *here*, because round two is no longer measuring
+a representative sample; it is persuading a small group on a fault line round one has
+already identified.
 
-**Unresolved, and it is the largest gap in the design:** real assemblies use trained
-human facilitators, which does not obviously scale to a national platform. Whether
-facilitation can be structured into software, or must be volunteer humans drawn by lot
-and trained, is an open question with no current answer.
+**Round two is asynchronous.** An earlier draft left this open and leaned live. Live is
+wrong, and for a load-bearing reason: scheduling a synchronous session across an
+archipelago, across shift work, across intermittent mobile data means only the available
+attend — and availability correlates hard with class. Under sortition that is §4.6's
+friction-as-bias in its most severe form: a representative panel silently becomes a
+panel of people with free evenings.
+
+Async also removes the **speed advantage**. Live discussion rewards whoever is fastest,
+most verbally confident, and most fluent in the dominant register. Async lets someone
+compose for twenty minutes on a phone during a break and be indistinguishable from the
+fast talker.
+
+**But async trades the speed advantage for a volume advantage.** Live, the fastest wins;
+async, the most persistent wins — and the paid operative has more hours than a nurse
+working doubles. The async equivalent of turn-taking is therefore not optional: a
+**posting budget**, N contributions per participant per fault line, hard cap. That one
+rule does most of what a live facilitator's turn-taking does, and it is a counter, not
+an AI.
+
+#### 4.7.1 What a forum costs
+
+Async political text forums are the native habitat of every failure mode this design
+opposes — dunking, pile-ons, last-word-wins, performing for an audience. That is
+Facebook comments and Reddit threads. **A forum is the highest-risk format available for
+round two**, which is precisely why it needs the most structure.
+
+It also loses social presence. Part of why facilitated assemblies change minds is that a
+human being who disagrees is sitting in the room. Text mostly does not do that. This is
+an unmitigated cost of choosing async, recorded rather than solved.
+
+#### 4.7.2 Required constraints
+
+- **Scoped to one fault line** discovered in round one. Not a topic. One disagreement.
+- **Time-boxed.** It opens and it closes. Perpetual threads rot.
+- **Small.** Ten to twenty participants, not two hundred.
+- **Posting budget** per participant, as above.
+- **Replies attach to claims, not people.** No reply-to-user anywhere.
+- **Cooling delay** before a post appears; an edit window. Async permits friction that is
+  impossible live — use it.
+- **Steelman gate.** An objection cannot post until its author has submitted a
+  restatement of the opposing position that the opposing participant accepts. Too slow
+  to run live; feasible async.
+- **It must terminate in an output** — a proposed bridging statement the group ratifies,
+  which returns to the wider panel for voting. A thread that merely dies is a talk shop,
+  and the platform would accumulate them.
+
+#### 4.7.3 Two properties invert between the rounds
+
+Recorded because a future contributor will otherwise try to harmonize them.
+
+- **Anonymity.** Round one hides authors so participants evaluate the claim rather than
+  the camp (§6.1). Round two wants *stable handles within the group*, because what
+  changes minds is repeated encounter with a specific person. Opposite requirements,
+  serving different jobs.
+- **Visibility.** Round one is public. Round two is **private while running, published in
+  full when it closes.** A deliberation that is publicly readable in real time makes
+  participants perform for the audience instead of talking to each other — context
+  collapse (§1) reintroduced at the worst possible moment. Assemblies handle it the same
+  way: closed sessions, published outputs. Nothing is hidden; it simply is not a stage
+  while it is happening.
+
+### 4.8 Can AI facilitate?
+
+Partly. "Unbiased" is the wrong bar — human facilitators are not unbiased either. The
+question is whether bias is **bounded, visible, and contestable.** On that test AI is
+worse than a human on one dimension that matters more here than elsewhere.
+
+#### 4.8.1 Correlated bias defeats cross-panel replication
+
+A biased human facilitator affects one panel. A biased model affects **every panel
+identically and in the same direction.**
+
+This breaks the manipulation detector. Cross-panel replication (§4.3) works because
+independently drawn panels should not diverge, so an outlier signals interference. A
+model's priors are correlated across all panels, so a systematic tilt produces no
+outlier — it produces forty panels agreeing with each other, which reads as a robust
+national finding.
+
+**Mitigation: run different models on different panels.** Different training, different
+priors, bias decorrelated, replication restored. If facilitation is automated at all,
+model diversity is not a refinement — it is what keeps the primary defense functioning.
+
+#### 4.8.2 Split the role
+
+Async removes most of the functions people imagine needing AI for:
+
+| Live function | Async equivalent | AI needed? |
+|---|---|---|
+| Turn-taking | Posting budget | **No** — a counter |
+| Timekeeping | Phase deadlines | **No** |
+| Noticing who is quiet | Non-participation detection, nudge | **Barely** — but matters more, as async dropout is silent |
+| De-escalation | Cooling delay, edit window, no reply-to-person | **No** |
+| Steelman prompting | The steelman gate (§4.7.2) | **Some** — the opposing participant judges success, not the model |
+| Restating, comprehension checks | — | With care; drifts into framing |
+| Summarizing | Draft plus contest window, group ratifies | **Draft only, never final** |
+| Answering factual questions | Route to evidence | **Never** — that makes it an oracle, which §1 forbids |
+
+The pattern: the parts AI handles well barely need AI, and the parts needing real
+judgment are where model bias is invisible.
+
+#### 4.8.3 Specific biases that would bite
+
+- **Training distribution.** Models are trained overwhelmingly on English-language,
+  US-inflected political discourse. Philippine politics does not map onto US left/right,
+  so a model's sense of "reasonable," "civil," and "extreme" is an import that will
+  systematically code some positions as needing moderation.
+- **Language as a class filter.** Model handling of Taglish, Bisaya, and Ilocano is
+  weaker than of fluent English. A facilitator intervening more often on code-switched
+  speech polices poorer participants more — inside a system whose value proposition is
+  representativeness.
+- **Sycophancy.** Post-RLHF models lean agreeable and validate whoever they address. A
+  facilitator that affirms each speaker in turn is actively anti-deliberative.
+- **Homogenization.** A model suggesting phrasings pulls everyone toward its register —
+  §4.4's anchoring problem arriving through a different door.
+
+#### 4.8.4 Evidence on the other side
+
+Recorded because it targets the function flagged as most dangerous. DeepMind's "Habermas
+Machine" (Tessler et al., *Science*, 2024) had an LLM generate group consensus statements
+from participants' individual views; participants rated the AI-written statements as
+fairer and more representative than those written by human mediators.
+
+Read precisely: *preferred* is not *unbiased* — fluency and agreeableness produce
+preference. The studies also ran in UK contexts, in English: the two conditions least
+like this one. Treat it as strong evidence that AI synthesis is **usable**, and as no
+evidence that it is **neutral**.
+
+#### 4.8.5 Rules if AI is used at all
+
+- **The model drafts, the group ratifies.** A summary is not the record until
+  participants across clusters accept it. The model is never the author.
+- **Apply the platform's own primitive to the facilitator.** Log every intervention
+  publicly and have both clusters rate whether it was fair. If one cluster flags
+  interventions three times as often as the other, that is a measured bias signal rather
+  than an argument.
+- **Prompts and intervention policy public and versioned.** A closed facilitator is the
+  same "trust us" failure as a closed ranking algorithm (THREAT-MODEL §4).
+- **Model diversity across panels** (§4.8.1).
+
+#### 4.8.6 The likely answer to scale
+
+Not AI-as-facilitator but **AI-as-the-facilitator's-coach.** Ten thousand trained
+facilitators cannot be hired. Ten thousand volunteers — drawn by lot, which matches the
+platform's ethos — might be trained, with a curriculum, live checklists, and a model
+carrying the mechanical load while the human carries judgment. That keeps bias
+human-scale, uncorrelated across panels, and visible to the people in the room.
+
+This shrinks the facilitation gap. It does not close it.
 
 ---
 
@@ -568,11 +711,18 @@ Recorded so these do not creep back in:
 - **Statement-pool anchoring** (§4.4) — the mitigations are cheap and plausible but
   untested. How strongly early statements shape the discovered axes is an empirical
   question that should be measured in the first panels, not assumed.
-- **Facilitation at scale** (§4.7) — **the largest gap.** Round one measures opinion;
-  it does not change minds. Round two needs small facilitated groups, and real citizens'
-  assemblies achieve that with trained human facilitators. Whether facilitation can be
-  structured into software, or must be volunteer humans drawn by lot and trained, has no
-  current answer.
+- **Facilitation at scale** (§4.7, §4.8) — **still the largest gap, but smaller than it
+  was.** Choosing async (§4.7) converts most facilitation into posting budgets,
+  deadlines, and cooling delays, which are counters rather than judgment. What remains is
+  the judgment part, where §4.8.1's correlated-bias problem makes AI actively dangerous.
+  Current best answer is AI-as-coach to volunteer facilitators drawn by lot (§4.8.6),
+  which is untested.
+- **Social presence** (§4.7.1). Async loses the humanizing effect of a person who
+  disagrees being in the room, which is part of why assemblies change minds. No
+  mitigation identified.
+- **Round-two dropout.** Async abandonment is silent and has no scheduled commitment
+  holding people in. Under sortition this is a representativeness failure, not an
+  engagement one — same logic as completion rate below.
 - **Completion rate as a bias metric** (§4.6). Under sortition, everyone who abandons a
   panel makes the result less representative. Completion is therefore a validity measure,
   not an engagement measure, and it should be instrumented and published as such from the
@@ -599,9 +749,10 @@ Build the risky thing first.
 3. **Multi-panel + aggregation**, without sortition. Validate cross-panel replication.
 4. **Identity: verify-then-forget.** Phone path first, separate service, blind signatures.
 5. **Sortition**, once the verified population is large enough to draw from meaningfully.
-6. **Round two — facilitated deliberation** (§4.7). Deferred deliberately: it is the
-   least understood piece, and rounds one through five produce something useful without
-   it.
+6. **Round two — the async forum** (§4.7). Deferred deliberately: it remains the least
+   understood piece, and steps one through five produce something useful without it.
+   Build it with human facilitators first, no AI. Any AI facilitation must wait until
+   §4.8.1's asymmetry measurement exists, because it cannot be evaluated afterward.
 7. **Agenda-setting and reputation.** Last — these only matter at a scale that does not
    yet exist.
 
