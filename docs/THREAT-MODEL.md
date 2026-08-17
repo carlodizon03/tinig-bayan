@@ -1,0 +1,270 @@
+# Tinig Bayan — Threat Model
+
+**Status: design exploration.** Companion to [DESIGN.md](./DESIGN.md).
+
+A platform that convenes national political deliberation in the Philippines is a target
+from day one. This document names the adversaries, what each one wants, and what in the
+design actually stops them — including where nothing does.
+
+**Assets worth attacking, in order of severity:**
+
+1. **The identity mapping** (verified human ↔ account). If it exists, it is the most
+   dangerous database in the country.
+2. **The legitimacy of published results.** The product is the claim "a representative
+   sample of Filipinos concluded X." Corrupt that and the platform is worse than useless
+   — it becomes a laundering service for manufactured consensus.
+3. **The national agenda queue.** Control of which questions get asked.
+4. **Availability**, during election periods especially.
+
+---
+
+## 1. Adversary: the state (or a faction within it)
+
+**Wants:** to identify a specific speaker; to compel takedowns; to shut the platform
+down during an election period.
+
+**Capabilities:** subpoena, warrant, RA 10175 cyberlibel proceedings, NPC or COMELEC
+regulatory pressure, seizure of infrastructure, pressure on individual staff.
+
+**Mitigations:**
+
+| Attack | Defense | Residual risk |
+|---|---|---|
+| Compelled disclosure of who posted X | **Verify-then-forget** (DESIGN §3.3). Blind-signed credentials mean the platform cannot answer. | Metadata: IP logs, timing correlation, session fingerprints. See below. |
+| Seizure of the verification service | Separate service, separate keys, separate operator. It holds phone numbers but no account linkage. | If both services are seized *and* both retained logs, correlation becomes possible. |
+| Coercion of staff | Nothing to reveal, by construction. This is the point of designing for absence rather than protection. | Future code changes could silently reintroduce linkage. Needs a standing review gate. |
+| Takedown / blocking | None technical. | Real and unmitigated. |
+
+**Metadata is the live gap.** Blind signatures protect the credential, not the network
+layer. If the app logs IPs, or if verification and account creation are correlatable by
+timestamp, the cryptography is decorative. Required: no IP retention, deliberate delay
+and batching between verification and redemption, and no analytics SDK that reintroduces
+a device identifier. **This is the most likely way the design fails in practice** — not
+by a broken crypto scheme, but by an ordinary logging default nobody reviewed.
+
+**Non-technical defenses** (equally load-bearing): open-source ranking, public
+moderation logs, and a published policy that the platform never adjudicates truth. These
+are what make "we are not partisan" verifiable rather than a claim.
+
+---
+
+## 2. Adversary: coordinated political operations (troll farms)
+
+Industrial and paid in the Philippine context. Assume budget, staff, and patience.
+
+**Wants:** to make a faction's position appear to be the deliberated national consensus.
+
+### 2.1 Mass fake accounts
+
+**Defense:** one verified human, one account, enforced by nullifier. Removes the cheap
+path entirely.
+
+**Residual:** RA 11934 SIM registration has documented bulk-fraud weaknesses. An
+operation can buy fraudulently registered SIMs at some cost per identity. The defense is
+economic, not absolute — it raises unit cost from ~zero to something real. **Track the
+prevailing black-market price of a registered SIM; that number is the actual security
+parameter of the whole system.**
+
+### 2.2 Real paid humans
+
+Verification cannot detect a real person who is paid to participate. This is the hardest
+attack and the design's answer is structural rather than detective.
+
+**Defenses:**
+
+- **Sortition.** Panels are drawn by lot from the verified population. An operator cannot
+  choose to be in a panel. To place N operatives in a given panel they must control a
+  large fraction of the *entire* verified population — the cost scales with the platform,
+  not with the attack.
+- **Cross-panel replication** (DESIGN §4.3). The same question runs through many
+  independent representative panels. Captured panels appear as statistical outliers. This
+  never requires judging anyone's sincerity, which is why it is robust.
+- **Bridging.** Even a captured panel produces nothing unless the operatives can win
+  endorsement from participants in the *opposing* cluster. Volume alone buys nothing.
+
+**Residual:** an operation that is genuinely large relative to the verified population
+during the early period, when that population is small. **The platform is most
+vulnerable to capture when it is smallest** — the reverse of the usual assumption. Do
+not publish results as representative until the verified base can support a real draw,
+and say so publicly.
+
+### 2.3 Cluster spoofing
+
+The subtlest attack on the whole design. Bridging rewards cross-cluster endorsement, so
+an operation infiltrates the *opposing* cluster — voting sincerely on unrelated topics to
+establish position — then uses that standing to endorse its own side's statements, which
+now read as bridging.
+
+**Defenses:** clusters are computed per-question from voting patterns, not stored as
+persistent identity, so standing must be rebuilt each time. Reputation is per-domain and
+non-fungible (DESIGN §5.3), so cross-topic standing does not transfer. Cross-panel
+replication still applies.
+
+**Residual: partially unmitigated, and this is the deepest open problem in the design.**
+It is the same class of attack Community Notes faces. Detection likely requires
+monitoring for coordinated voting *sequences* rather than positions. Needs dedicated
+work before any high-stakes question runs.
+
+### 2.4 Agenda flooding and smear-by-question
+
+Opening *"Should [politician] be arrested?"* as a national question is a smear that
+borrows the platform's legitimacy at zero cost.
+
+**Defenses:** proposal throttling per account; promotion gated on **bridging support**
+rather than signature count, so a single faction cannot promote alone; a light framing
+check that the proposal states a topic rather than smuggling a verdict; and cross-cluster
+agreement that wording is neutral before a question may run.
+
+**Residual:** the promotion layer decides what the nation deliberates, which makes it a
+high-value target. It is a much smaller target than it was in earlier drafts — DESIGN
+§4.4 removed the editorial role that also decided *how* a question was framed — but
+promotion still gates the queue. Whoever holds it should be selected in a
+capture-resistant way, plausibly by lot from qualified contributors rather than by
+accumulation. Unresolved.
+
+### 2.5 Statement-pool anchoring
+
+Introduced deliberately by DESIGN §4.4. Because decomposition is emergent rather than
+authored, there is no framing role to capture — but framing still happens, and it is
+shaped by whoever writes statements early and fluently. Early statements anchor the
+opinion space, and the axes computed from the vote matrix are the axes everyone
+subsequently votes along.
+
+The attack: flood the statement pool in the opening hour with well-crafted statements
+spanning a chosen framing. Later participants vote on the dimensions you supplied. No
+fake accounts required, no vote manipulation, no detectable coordination in the voting
+data — only a modest number of real, verified people submitting early.
+
+This is a genuine trade: an appointed role has been exchanged for a race condition. The
+race condition is preferable — it is diffuse, contestable, and open to everyone rather
+than vested in one seat — but it is not nothing.
+
+**Defenses:** seed the initial pool from a stratified random sample rather than
+volunteers; throttle statements per person; serve statements to voters in randomized
+order; keep submission open for the full duration rather than front-loading it, so late
+entrants can still introduce a missing dimension.
+
+**Residual:** untested. How strongly early statements shape the discovered axes is an
+empirical question. **Measure it in the first panels** — inject a late statement on a
+known-missing dimension and see whether it can still gain traction. If it cannot, the
+mitigations are insufficient and the design needs revisiting.
+
+---
+
+### 2.6 Correlated model bias
+
+Listed here despite having no adversary. It is the only entry in this document that
+requires nobody to attack anything, and it is dangerous for exactly that reason: it
+produces a corrupted national result through ordinary operation.
+
+If an AI facilitates round two (DESIGN §4.8), its priors apply **identically and in the
+same direction to every panel simultaneously.**
+
+This defeats §2.2's primary defense. Cross-panel replication detects manipulation because
+independently drawn panels should not diverge — an outlier is the signal. Model bias
+produces no outlier. It produces forty panels agreeing with each other, which is
+indistinguishable from, and will be reported as, a robust national finding. **The
+detector is not merely blind to this failure; the failure actively strengthens the
+detector's confidence.**
+
+The biases most likely to matter are not exotic: training corpora dominated by
+English-language, US-inflected political discourse, applied to a political landscape
+that does not map onto US left/right; weaker handling of Taglish, Bisaya, and Ilocano,
+which turns the facilitator into a class filter; and post-RLHF agreeableness, which
+validates whoever it addresses.
+
+**Defenses:**
+
+- **Model diversity across panels.** Different models with different training have
+  different priors, which decorrelates the bias and restores replication. If facilitation
+  is automated at all, this is not a refinement — it is what keeps §2.2 working.
+- **The model drafts, the group ratifies.** No model output enters the record until
+  participants across clusters accept it (DESIGN §4.8.5).
+- **Facilitator interventions logged publicly and rated by both clusters.** Asymmetric
+  flag rates are a measurable bias signal rather than an argument.
+- **Prompts and intervention policy public and versioned.** A closed facilitator is the
+  same "trust us" failure as a closed ranking algorithm (§4).
+- Prefer **AI as the human facilitator's coach** over AI as facilitator (DESIGN §4.8.6),
+  which keeps bias human-scale and uncorrelated by construction.
+
+**Residual:** all defenses above are untested here, and the failure is silent by nature.
+Treat any AI-facilitated result as provisional until asymmetry has been measured on
+panels where the answer is already known.
+
+---
+
+## 3. Adversary: ordinary users behaving badly
+
+Not malicious, but the failure mode most likely to actually occur.
+
+| Behavior | Defense |
+|---|---|
+| Brigading a panel | Sortition — you cannot choose your panel. |
+| Downvoting dissent into silence | No downvote exists. Disagree is free and carries no penalty (DESIGN §5.2). |
+| Dunking and screenshot wars | No reshare, no quote-post. Nothing can go viral. |
+| Status-farming | No public score. Reputation is invisible, non-fungible, decaying, and spendable only on responsibility. |
+| Sincere but polarizing pile-on | Bridging ranking means volume alone changes nothing. |
+
+---
+
+## 4. Adversary: the platform itself
+
+The most under-modeled threat in projects like this. Tinig Bayan claims to report what
+the nation concluded. That is a power, and it needs constraints pointed at its own
+operators.
+
+**Attacks available to the operator:** tuning cluster parameters to shape outcomes;
+biased panel draws; quiet suppression of a question; selective publication.
+
+**Required defenses:**
+
+- Ranking, clustering, and draw algorithms **open source**.
+- Panel draws **seeded verifiably** — a published commitment before the draw and a
+  reproducible seed after, so anyone can recompute the sample.
+- **Full raw vote data published** (subject to k-anonymity) so third parties can
+  independently recompute results.
+- **Every proposed question publicly visible**, including those not promoted and the
+  reason. Suppression must be detectable.
+- Moderation logs public.
+
+Without these, "trust us" is the entire security model, and the platform becomes exactly
+the manufactured-consensus machine it was built to replace.
+
+---
+
+## 5. Adversary: the design's own failure modes
+
+Not attacks — ways the thing fails while working as specified.
+
+- **Exclusion presented as representation** (DESIGN §3.2). If the verified population
+  skews toward the documented middle class, every published result is a middle-class
+  result wearing a national label. Mandatory mitigation: measure the skew, publish it,
+  and attach the residual bias to every result.
+- **Deanonymization by attribute** (DESIGN §3.4). Region plus age plus one more field
+  identifies people in small municipalities. k-anonymity must be a hard gate on
+  rendering, not a guideline.
+- **Legitimacy laundering.** A well-run process produces a citable output. That output
+  will be quoted selectively by whoever it favors. The platform cannot prevent this, but
+  should publish confidence intervals, dissenting cluster positions, and non-consensus
+  areas with equal prominence — never a single headline number.
+- **Karma by another name.** Any future feature that surfaces a public approval count
+  reintroduces the failure DESIGN §5.1 exists to prevent. This deserves a standing
+  review question on every feature: *does this create a number people can farm?*
+
+---
+
+## 6. Priority order
+
+1. **Metadata linkability** (§1) — most likely real-world failure of the identity
+   guarantee, and it fails silently.
+2. **Cluster spoofing** (§2.3) — deepest unsolved attack on the core mechanism.
+3. **Early-stage capture** (§2.2) — highest risk precisely when the platform looks
+   harmless.
+4. **Statement-pool anchoring** (§2.5) — cheap to attempt, requires no fake accounts,
+   and leaves no signature in the voting data. Mitigations are untested.
+5. **Correlated model bias** (§2.6) — needs no adversary, and defeats the detector that
+   catches everything else in §2. Applies only once AI facilitation exists, which is a
+   reason to decide it before building it rather than after.
+6. **Operator trust** (§4) — cheap to fix now, near-impossible to retrofit credibly.
+7. **Exclusion skew** (§5) — an ethical failure that no amount of good engineering
+   downstream repairs.
