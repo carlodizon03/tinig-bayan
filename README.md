@@ -1,22 +1,47 @@
 # Tinig Bayan
 
-A civic deliberation platform for the Philippines, designed so that national political
-conversation resists polarization rather than manufacturing it.
+A civic deliberation platform for the Philippines, built so that national political
+conversation resists polarization instead of manufacturing it.
 
-The core idea: **cross-cluster agreement is the only currency.** Nothing gains rank,
-reputation, or agenda position through popularity — only through endorsement from people
-who disagree with each other. There is no feed, no resharing, no public score, and the
-platform never adjudicates truth. National questions are deliberated by representative
-panels drawn by lot, which is the actual reason participants must be verified humans.
+**The only thing that earns rank, reputation, or agenda position is agreement from the
+people you disagree with.**
 
-**Status: design exploration.** No product code exists yet — the repository is currently
-an Angular 19 scaffold.
+Most attempts to fix political social media go after misinformation. We think that's the
+symptom. Engagement ranking rewards outrage because outrage spreads; posts become
+declarations of allegiance rather than claims anyone could evaluate; and nothing ever
+comes back to the person who was wrong. Bolt a perfect fact-checker onto a feed like that
+and it still polarizes — people just fight about true things instead. So this platform
+changes what gets rewarded rather than policing what gets said, and it never rules on who
+is right. It reports only where agreement exists.
 
-- [docs/DESIGN.md](docs/DESIGN.md) — the problem framing, identity architecture
-  (verify-then-forget), deliberation mechanics, reputation and agenda-setting, and build
-  order.
-- [docs/THREAT-MODEL.md](docs/THREAT-MODEL.md) — adversaries, mitigations, and the open
-  problems the design does not yet solve.
+What that means in practice:
+
+- **No feed, no resharing, no public score.** Nothing can go viral, so volume buys
+  nothing.
+- **Content surfaces when opposing sides both endorse it** — not when it's popular.
+- **National questions are deliberated by representative panels drawn by lot**, the way a
+  jury is. Running the same question through many independent panels also makes
+  coordinated manipulation show up as a statistical outlier.
+- **Everyone is a verified unique human, shown pseudonymously** — but the platform is
+  built so it *cannot* know who you are. Verification issues a blindly signed credential
+  it can't link back to you. Asked who posted something, the honest answer is: we can't
+  know.
+- **Verification exists to enable the lottery, not to stop trolls.** Drawing a genuinely
+  representative sample of a country is something no other platform can do, and it's the
+  whole reason for requiring authenticity.
+
+**Status: design exploration.** No product code exists yet — the repository is an
+Angular 19 scaffold. What's here is a design and a threat model, including the problems
+it does not solve: resistance to infiltration of opposing clusters, the risk of excluding
+the least documented people in a platform named for the voice of the people, and how
+small-group deliberation could ever be facilitated at national scale.
+
+- [docs/DESIGN.md](docs/DESIGN.md) — problem framing, identity architecture
+  (verify-then-forget), deliberation mechanics, what a participant actually sees,
+  reputation and agenda-setting, and build order.
+- [docs/THREAT-MODEL.md](docs/THREAT-MODEL.md) — the state, troll farms, ordinary users,
+  and the platform operator itself.
+- [docs/ABSTRACT.md](docs/ABSTRACT.md) — summaries at three lengths for use elsewhere.
 
 ---
 
